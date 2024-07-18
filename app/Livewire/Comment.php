@@ -8,16 +8,18 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class Comment extends Component {
+class Comment extends Component
+{
     public $podcast;
 
-    #[Validate( 'required|min:10' )]
+    #[Validate('required|min:10')]
     public $title;
 
-    #[Validate( 'required|min:30' )]
+    #[Validate('required|min:30')]
     public $content;
 
-    public function save( Request $request ) {
+    public function save(Request $request)
+    {
 
         $this->validate();
 
@@ -29,13 +31,16 @@ class Comment extends Component {
             $comment
         );
 
-        $this->reset( [ 'title', 'content' ] );
+        $this->reset(['title', 'content']);
 
-        CommentAdded::dispatch( $this->podcast, 'comment.add.' . $this->podcast->id );
+        CommentAdded::dispatch($this->podcast, 'comment.add.' . $this->podcast->id);
+        $this->dispatch('comment-add');
     }
 
-    #[On( 'echo:comment.add.{podcast.id},CommentAdded' )]
-    public function resetComment() {
-        $this->js( '$wire.$refresh()' );
+    #[On('echo:comment.add.{podcast.id},CommentAdded')]
+    #[On('comment-add')]
+    public function resetComment()
+    {
+        $this->js('$wire.$refresh()');
     }
 }

@@ -21,6 +21,9 @@
         <button class="self-end w-36 bg-blue-500 text-white rounded-lg
         p-2">Envoyer
         </button>
+        <div wire:loading>
+            Saving comment...
+        </div>
     </form>
     <h2 class="text-3xl">
         @livewire('comment-count', ['podcast' => $podcast])
